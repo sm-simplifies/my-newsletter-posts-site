@@ -10,7 +10,7 @@ This project demonstrates a **DevOps pipeline** integrating **Jenkins**, **Docke
 ---
 
 ## 📚 Table of Contents
-1. [Overview](#Overview)
+1. [Overview](#overview_id)
 2. [Prerequisites](#prerequisites)
 4. [Prepare AWS & IAM](#1-prepare-aws--iam)
 5. [Launch EC2 for Jenkins](#2-launch-ec2-for-jenkins)
@@ -25,6 +25,7 @@ This project demonstrates a **DevOps pipeline** integrating **Jenkins**, **Docke
 
 ---
 
+<a id="overview_id"></a>
 ## 🧭 Overview
 - 🔁 **Jenkins** automates: Code → Build → Dockerize → Push → Deploy.
 - 🐳 **Docker Hub** hosts the built image (`smicx20/myweb-image`).
@@ -186,3 +187,4 @@ Important Jenkins credential IDs used in the Jenkinsfile must match those create
 💡 *"Knowledge should spread!"* 💪
 
 ---
+
