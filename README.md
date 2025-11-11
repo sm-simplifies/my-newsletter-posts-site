@@ -156,41 +156,15 @@ kubectl get pods -o wide
 ---
 
 ## 🧩 9. Jenkins Pipeline Explanation
-**Jenkinsfile:**
-```groovy
-pipeline {
-  agent any
-  tools { maven "Apache Maven 3.8.4" }
-  environment {
-    DOCKER_HUB_USER = 'smicx20'
-    IMAGE_NAME = 'myweb-image'
-  }
-  stages {
-    stage('Git Checkout') { steps { git url: 'https://github.com/sm-simplifies/myweb.git', branch: 'master' } }
-    stage('Maven Build') { steps { sh 'mvn clean package' } }
-    stage('Docker Build') { steps { sh 'docker build -t ${IMAGE_NAME}:v${BUILD_NUMBER} .' } }
-    stage('Docker Push') {
-      steps {
-        withCredentials([string(credentialsId: 'dockerhub-pass', variable: 'DOCKER_HUB_PASS')]) {
-          sh '''
-            echo "$DOCKER_HUB_PASS" | docker login -u "$DOCKER_HUB_USER" --password-stdin
-            docker tag ${IMAGE_NAME}:v${BUILD_NUMBER} ${DOCKER_HUB_USER}/${IMAGE_NAME}:v${BUILD_NUMBER}
-            docker push ${DOCKER_HUB_USER}/${IMAGE_NAME}:v${BUILD_NUMBER}
-          '''
-        }
-      }
-    }
-    stage('Deploy to K8s') {
-      steps {
-        sh '''
-          sed -i "s|${DOCKER_HUB_USER}/${IMAGE_NAME}:v*|${DOCKER_HUB_USER}/${IMAGE_NAME}:v${BUILD_NUMBER}|g" deployments.yaml
-          kubectl apply -f deployments.yaml
-        '''
-      }
-    }
-  }
-}
-```
+
+The provided Jenkinsfile stages: 
+- Git Checkout: clone the repo. 
+- Maven Build: mvn clean package to produce the WAR. 
+- Docker Build: build image myweb-image:v${BUILD_NUMBER} . 
+- Docker Login & Push: login to Docker Hub (credential dockerhub-pass), tag and push. 
+- Update Deployment File: update deployments.yaml to new tag using sed. 
+- Kubernetes Deployment: apply deployments.yaml 
+Important Jenkins credential IDs used in the Jenkinsfile must match those created earlier.
 
 ---
 
@@ -225,13 +199,14 @@ pipeline {
 
 ### [deployments.yaml](https://github.com/sm-simplifies/myweb/blob/769f01e33e9ccb480add79c2e53623c73c4f3c67/deployments.yaml)
 
-### Dockerfile
+### [Dockerfile](https://github.com/sm-simplifies/myweb/blob/d599e1ec9bb6a1248017a6e0b379b98a8b690fcc/dockerfile)
 
 ---
 
 ## 👨‍💻 Author
 **Swapnil Mali** — AWS & DevOps Engineer  
 💡 *"Knowledge should spread!"* 💪
+
 
 
 
