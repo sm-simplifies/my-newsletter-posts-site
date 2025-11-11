@@ -1,169 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mr. Camel</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <title>Professional Blog Post</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
-
     body {
+      font-family: 'Roboto', sans-serif;
+      background: #f4f7fa;
       margin: 0;
-      box-sizing: border-box;
+      color: #23272c;
     }
 
-    .container {
-      line-height: 150%;
+    header {
+      background: #1a365d;
+      color: #fff;
+      padding: 2rem 0;
+      text-align: center;
     }
 
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px;
-      background-color: #e9e9e9;
-    }
-
-    .header h1 {
-      color: #222222;
-      font-size: 30px;
-      font-family: 'Pacifico', cursive;
-    }
-
-    .header .social a {
-      padding: 0 5px;
-      color: #222222;
-    }
-
-    .left {
-      float: left;
-      width: 180px;
+    header h1 {
       margin: 0;
-      padding: 1em;
+      font-size: 2.5rem;
+      letter-spacing: 1px;
     }
 
-    .content {
-      margin-left: 190px;
-      border-left: 1px solid #d4d4d4;
-      padding: 1em;
+    main {
+      max-width: 1080px;
+      margin: 40px auto;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 32px;
+    }
+
+    .post {
+      background: #fff;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+      border-radius: 10px;
       overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: box-shadow .2s;
     }
 
-    ul {
-      list-style-type: none;
-      margin: 0;
-      padding: 0;
-      font-family: sans-serif;
+    .post:hover {
+      box-shadow: 0 8px 32px rgba(30,60,120,0.15);
     }
 
-    li a {
-      display: block;
-      color: #000;
-      padding: 8px 16px;
-      text-decoration: none;
-    }
-
-    li a.active {
-      background-color: #84e4e2;
-      color: white;
-    }
-
-    li a:hover:not(.active) {
-      background-color: #29292a;
-      color: red;
-    }
-
-    table {
-      font-family: arial, sans-serif;
-      border-collapse: collapse;
+    .post img {
       width: 100%;
-      margin: 30px 0;
+      height: 190px;
+      object-fit: cover;
     }
 
-    td,
-    th {
-      border: 1px solid #dddddd;
-      padding: 8px;
+    .post-content {
+      padding: 1.5rem;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
     }
 
-    tr:nth-child(1) {
-      background-color: #84e4e2;
-      color: white;
+    .post-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #1a365d;
     }
 
-    tr td i.fas {
-      display: block;
-      font-size: 35px;
+    .post-meta {
+      color: #7a8593;
+      font-size: .96rem;
+      margin-bottom: 16px;
+    }
+
+    .post-desc {
+      flex: 1;
+      color: #303a49;
+      margin-bottom: 12px;
+    }
+
+    .btn-read {
+      background: #2563eb;
+      color: #fff;
+      text-decoration: none;
+      padding: 8px 18px;
+      border-radius: 4px;
       text-align: center;
+      font-weight: 700;
+      align-self: flex-start;
+      transition: background .2s;
+      letter-spacing: .5px;
     }
 
-    .footer {
-      padding: 55px 20px;
-      background-color: #2e3550;
-      color: white;
-      text-align: center;
+    .btn-read:hover {
+      background: #1841a3;
+    }
+
+    @media (max-width: 750px) {
+      main {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
-
 <body>
-  <div class="container">
-    <header class="header">
-      <h1>Final-Project Batch_019_021</h1>
-      <div class="social">
-        <a href="#"><i class="fab fa-facebook"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-twitter"></i></a>
-      </div>
-    </header>
-    <aside class="left">
-      <img src="./assets/html/mr-camel.jpg" width="160px" />
-      <ul>
-        <li><a class="active" href="#home">Home</a></li>
-        <li><a href="#career">Career</a></li>
-        <li><a href="#contact">Contact</a></li>
-        <li><a href="#about">About</a></li>
-      </ul>
-      <br><br>
-      <p>"Do something important in life. I convert green grass to code."<br>- Mr Camel</p>
-    </aside>
-    <main class="content">
-      <h2>About Me</h2>
-      <p>I don't look like some handsome horse, but I am a real desert king. I can survive days without water.</p>
-      <h2>My Career</h2>
-      <p>I work as a web developer for a company that makes websites for camel businesses.</p>
-      <hr><br>
-      <h2>How Can I Help You?</h2>
-      <table>
-        <tr>
-          <th>SKILL 1</th>
-          <th>SKILL 2</th>
-          <th>SKILL 3</th>
-        </tr>
-        <tr>
-          <td><i class="fas fa-broom"></i></td>
-          <td><i class="fas fa-archive"></i></td>
-          <td><i class="fas fa-trailer"></i></td>
-        </tr>
-        <tr>
-          <td>Cleaning kaktus in your backyard</td>
-          <td>Storing some fat for you</td>
-          <td>Taking you through the desert</td>
-        </tr>
-        <tr>
-      </table>
-      <form>
-        <label>Email: <input type="text" name="email"></label><br>
-        <label> Mobile: <input type="text" name="mobile"> </label><br>
-        <textarea name="comments" rows="4">Enter your message</textarea><br>
-        <input type="submit" value="Submit" /><br>
-      </form>
-    </main>
-    <footer class="footer">&copy; Copyright Mr. Camel</footer>
-  </div>
-</body>
+  <header>
+    <h1>DevOps & Cloud Insights</h1>
+    <p>Latest blogs, tips, and tutorials for cloud professionals</p>
+  </header>
 
+  <main>
+    <article class="post">
+      <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=600&q=80" alt="Cloud computing blog">
+      <div class="post-content">
+        <div class="post-title">Getting Started with AWS EKS</div>
+        <div class="post-meta">By Jane Smith · Nov 9, 2025</div>
+        <div class="post-desc">
+          Learn how to launch, configure, and secure your Kubernetes clusters on AWS EKS. This guide helps beginners step-by-step.
+        </div>
+        <a class="btn-read" href="#">Read More</a>
+      </div>
+    </article>
+    <article class="post">
+      <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80" alt="DevOps automation">
+      <div class="post-content">
+        <div class="post-title">Terraform Automation Best Practices</div>
+        <div class="post-meta">By Bob Lee · Nov 7, 2025</div>
+        <div class="post-desc">
+          Explore essential tips for writing and organizing Terraform code to manage infrastructure with ease and reliability.
+        </div>
+        <a class="btn-read" href="#">Read More</a>
+      </div>
+    </article>
+    <article class="post">
+      <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=600&q=80" alt="Monitoring tools">
+      <div class="post-content">
+        <div class="post-title">Prometheus & Grafana: Monitoring for DevOps</div>
+        <div class="post-meta">By Emily Turner · Nov 4, 2025</div>
+        <div class="post-desc">
+          Discover how to quickly setup integrated monitoring solutions using Prometheus and Grafana on your cloud workloads.
+        </div>
+        <a class="btn-read" href="#">Read More</a>
+      </div>
+    </article>
+  </main>
+</body>
 </html>
