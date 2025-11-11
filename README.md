@@ -4,28 +4,40 @@
 
 ---
 
+<a id="top"></a>
 ## 🧩 About the Project
 This project demonstrates a **DevOps pipeline** integrating **Jenkins**, **Docker**, and **AWS EKS (Kubernetes)** to achieve **Continuous Integration and Continuous Deployment (CI/CD)** for a Java web application. The application is containerized using **Tomcat**, monitored with **Prometheus** and **Grafana**, and automatically deployed to **EKS** using a Jenkins pipeline.
 
 ---
 
 ## 📚 Table of Contents
-1. [Overview](#overview_id)
+1. [Overview](#overview)
 2. [Prerequisites](#prerequisites)
-4. [Prepare AWS & IAM](#1-prepare-aws--iam)
-5. [Launch EC2 for Jenkins](#2-launch-ec2-for-jenkins)
-6. [Install Required Software](#3-install-required-software)
-7. [Configure Jenkins](#4-configure-jenkins)
-8. [Create IAM Roles for EKS](#6-create-iam-roles-for-eks)
-9. [Create EKS Cluster](#7-create-eks-cluster)
-10. [Jenkins Pipeline Explanation](#9-jenkins-pipeline-explanation)
-11. [Run & Verify Deployment](#10-verify-deployment)
-12. [Troubleshooting](#11-troubleshooting)
+4. [Prepare AWS & IAM](#prepare-aws--iam)
+5. [Launch EC2 for Jenkins](#launch-ec2-for-jenkins)
+6. [Install Required Software](#install-required-software)
+7. [Configure Jenkins](#configure-jenkins)
+8. [Create IAM Roles for EKS](#create-iam-roles-for-eks)
+9. [Create EKS Cluster](#create-eks-cluster)
+10. [Jenkins Pipeline Explanation](#jenkins-pipeline-explanation)
+11. [Run & Verify Deployment](#verify-deployment)
+12. [Troubleshooting](#troubleshooting)
 13. [Appendix: Files](#appendix-files)
 
 ---
+<a id="prepare-aws--iam"></a>
+<a id="launch-ec2-for-jenkins"></a>
+<a id="install-required-software"></a>
+<a id="configure-jenkins"></a>
+<a id="create-iam-roles-for-eks"></a>
+<a id="create-eks-cluster"></a>
+<a id="jenkins-pipeline-explanation"></a>
+<a id="verify-deployment"></a>
+<a id="troubleshooting"></a>
+<a id="appendix-files"></a>
 
-<a id="overview_id"></a>
+
+<a id="overview"></a>
 ## 🧭 Overview
 - 🔁 **Jenkins** automates: Code → Build → Dockerize → Push → Deploy.
 - 🐳 **Docker Hub** hosts the built image (`smicx20/myweb-image`).
@@ -34,6 +46,7 @@ This project demonstrates a **DevOps pipeline** integrating **Jenkins**, **Docke
 
 ---
 
+<a id="prerequisites"></a>
 ## ⚙️ Prerequisites
 - ✅ AWS Account with required permissions (EC2, EKS, IAM).
 - ✅ Docker Hub account: `mayrhatte09`.
@@ -42,6 +55,7 @@ This project demonstrates a **DevOps pipeline** integrating **Jenkins**, **Docke
 
 ---
 
+<a id="prepare-aws--iam"></a>
 ## 🧱 1. Prepare AWS & IAM
 1. Go to **AWS Console → IAM**.
 2. Create an **IAM User** with *programmatic access*.
@@ -51,6 +65,8 @@ This project demonstrates a **DevOps pipeline** integrating **Jenkins**, **Docke
 
 ---
 
+
+<a id="launch-ec2-for-jenkins"></a>
 ## ☁️ 2. Launch EC2 for Jenkins
 | Parameter | Value |
 |------------|-------|
@@ -63,6 +79,8 @@ This project demonstrates a **DevOps pipeline** integrating **Jenkins**, **Docke
 
 ---
 
+
+<a id="install-required-software"></a>
 ## 🧰 3. Install Required Software
 SSH into EC2 and run:
 
@@ -93,6 +111,7 @@ grep jenkins /etc/passwd
 
 ---
 
+<a id="configure-jenkins"></a>
 ## 🧩 4. Configure Jenkins
 1. Unlock Jenkins using `/var/lib/jenkins/secrets/initialAdminPassword`.
 2. Install **recommended plugins** (Git, Pipeline, Docker Pipeline, Kubernetes).
@@ -101,6 +120,7 @@ grep jenkins /etc/passwd
 
 ---
 
+<a id="create-iam-roles-for-eks"></a>
 ## 🔐 5. Create IAM Roles for EKS
 1. **Master Role:** Use case → EKS Cluster.
 2. **Worker Node Role:** Use case → EC2.
@@ -111,6 +131,7 @@ grep jenkins /etc/passwd
 
 ---
 
+<a id="create-eks-cluster"></a>
 ## ☸️ 6. Create EKS Cluster
 ```bash
 eksctl create cluster \
@@ -132,6 +153,7 @@ kubectl get nodes
 
 ---
 
+<a id="jenkins-pipeline-explanation"></a>
 ## 🧩 7. Jenkins Pipeline Explanation
 
 The provided Jenkinsfile stages: 
@@ -145,7 +167,8 @@ Important Jenkins credential IDs used in the Jenkinsfile must match those create
 
 ---
 
-## ✅ 8. Verify Deployment
+<a id="verify-deployment"></a>
+## ✅ 8. Run & Verify Deployment
 1. Run Jenkins pipeline.
 2. Check Docker Hub for image tag `v{BUILD_NUMBER}`.
 3. Validate deployment:
@@ -161,6 +184,7 @@ Important Jenkins credential IDs used in the Jenkinsfile must match those create
 
 ---
 
+<a id="troubleshooting"></a>
 ## 🧠 9. Troubleshooting
 | Problem | Fix |
 |----------|------|
@@ -172,6 +196,7 @@ Important Jenkins credential IDs used in the Jenkinsfile must match those create
 
 ---
 
+<a id="appendix-files"></a>
 ## 📁 Appendix: Files
 
 ### [deployments.yaml](https://github.com/sm-simplifies/myweb/blob/769f01e33e9ccb480add79c2e53623c73c4f3c67/deployments.yaml)
@@ -188,3 +213,4 @@ Important Jenkins credential IDs used in the Jenkinsfile must match those create
 
 ---
 
+[TOP](#top)
