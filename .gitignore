@@ -14,7 +14,6 @@ replay_pid*
 ## Maven
 ##############################
 target/
-pom.xml
 pom.xml.tag
 pom.xml.releaseBackup
 pom.xml.versionsBackup
@@ -89,17 +88,3 @@ nb-configuration.xml
 ## Miscellaneous
 ##############################
 *.log
-
-##############################
-## YAML Files
-##############################
-*.yml
-*.yaml
-
-##############################
-## Miscellaneous files
-##############################
-Jenkinsfile
-Dockerfile
-jenkinsfile
-dockerfile

@@ -1,4 +1,5 @@
-# 🚀 AWS EKS + Jenkins CI/CD Pipeline
+<a id="top"></a>
+# 🚀 AWS EKS + Jenkins CI/CD — Project Workflow Execution.
 
 > **Repository:** [myweb](https://github.com/sm-simplifies/myweb.git)
 
@@ -10,40 +11,41 @@ This project demonstrates a **DevOps pipeline** integrating **Jenkins**, **Docke
 ---
 
 ## 📚 Table of Contents
-1. [Overview](#Overview)
+1. [Overview](#overview)
 2. [Prerequisites](#prerequisites)
-3. [Prepare AWS & IAM](#1-prepare-aws--iam)
-4. [Launch EC2 for Jenkins](#2-launch-ec2-for-jenkins)
-5. [Install Required Software](#3-install-required-software)
-6. [Configure Jenkins](#4-configure-jenkins)
-7. [Build Docker Image](#5-build-docker-image)
-8. [Create IAM Roles for EKS](#6-create-iam-roles-for-eks)
-9. [Create EKS Cluster](#7-create-eks-cluster)
-10. [Deploy to Kubernetes](#8-deploy-to-kubernetes)
-11. [Pipeline Explanation](#9-jenkins-pipeline-explanation)
-12. [Verify Deployment](#10-verify-deployment)
-13. [Troubleshooting](#11-troubleshooting)
-14. [Appendix: Files](#appendix-files)
+3. [Prepare AWS and IAM](#prepare-aws-and-iam)
+4. [Launch EC2 for Jenkins](#launch-ec2-for-jenkins)
+5. [Install Required Software](#install-required-software)
+6. [Configure Jenkins](#configure-jenkins)
+7. [Create IAM Roles for EKS](#create-iam-roles-for-eks)
+8. [Create EKS Cluster](#create-eks-cluster)
+9. [Jenkins Pipeline Explanation](#jenkins-pipeline-explanation)
+10. [Run & Verify Deployment](#verify-deployment)
+11. [Troubleshooting](#troubleshooting)
+12. [Appendix: Files](#appendix-files)
 
 ---
 
+<a id="overview"></a>
 ## 🧭 Overview
 - 🔁 **Jenkins** automates: Code → Build → Dockerize → Push → Deploy.
-- 🐳 **Docker Hub** hosts the built image (`mayrhatte09/myimage`).
+- 🐳 **Docker Hub** hosts the built image (`smicx20/myweb-image`).
 - ☸️ **AWS EKS** runs the application in Kubernetes pods.
 - 📊 **Prometheus** and **Grafana** provide monitoring and visualization.
 
 ---
 
+<a id="prerequisites"></a>
 ## ⚙️ Prerequisites
 - ✅ AWS Account with required permissions (EC2, EKS, IAM).
 - ✅ Docker Hub account: `mayrhatte09`.
-- ✅ GitHub repository: [myweb](https://github.com/Mayurhatte09/myweb.git).
+- ✅ GitHub repository: [myweb](https://github.com/sm-simplifies/myweb.git).
 - ✅ Local setup or EC2 instance with AWS CLI and kubectl installed.
 
 ---
 
-## 🧱 1. Prepare AWS & IAM
+<a id="prepare-aws-and-iam"></a>
+## 🧱 1. Prepare AWS and IAM
 1. Go to **AWS Console → IAM**.
 2. Create an **IAM User** with *programmatic access*.
 3. Save **Access Key ID** and **Secret Key**.
@@ -52,6 +54,7 @@ This project demonstrates a **DevOps pipeline** integrating **Jenkins**, **Docke
 
 ---
 
+<a id="launch-ec2-for-jenkins"></a>
 ## ☁️ 2. Launch EC2 for Jenkins
 | Parameter | Value |
 |------------|-------|
@@ -64,6 +67,7 @@ This project demonstrates a **DevOps pipeline** integrating **Jenkins**, **Docke
 
 ---
 
+<a id="install-required-software"></a>
 ## 🧰 3. Install Required Software
 SSH into EC2 and run:
 
@@ -94,28 +98,17 @@ grep jenkins /etc/passwd
 
 ---
 
+<a id="configure-jenkins"></a>
 ## 🧩 4. Configure Jenkins
 1. Unlock Jenkins using `/var/lib/jenkins/secrets/initialAdminPassword`.
 2. Install **recommended plugins** (Git, Pipeline, Docker Pipeline, Kubernetes).
 3. Add credentials:
    - 🐳 **Docker Hub:** Username & password → ID: `dockerhub-pass`
-   - ☁️ **AWS (Optional):** IAM Access Key / Secret Key
-4. Test Jenkins → New Job → `docker ps`
 
 ---
 
-## 🐋 5. Build Docker Image
-**Dockerfile:**
-```dockerfile
-FROM tomcat:9.0.109
-COPY target/myweb*.war /usr/local/tomcat/webapps/myweb.war
-```
-
-📦 The pipeline compiles WAR → builds Docker image → pushes to Docker Hub.
-
----
-
-## 🔐 6. Create IAM Roles for EKS
+<a id="create-iam-roles-for-eks"></a>
+## 🔐 5. Create IAM Roles for EKS
 1. **Master Role:** Use case → EKS Cluster.
 2. **Worker Node Role:** Use case → EC2.
    - Attach policies:
@@ -125,7 +118,8 @@ COPY target/myweb*.war /usr/local/tomcat/webapps/myweb.war
 
 ---
 
-## ☸️ 7. Create EKS Cluster
+<a id="create-eks-cluster"></a>
+## ☸️ 6. Create EKS Cluster
 ```bash
 eksctl create cluster \
   --name moster-node \
@@ -140,64 +134,28 @@ eksctl create cluster \
 
 Then configure:
 ```bash
-aws eks update-kubeconfig --region ap-southeast-1 --name moster-node
+aws eks update-kubeconfig --region ap-southeast-1 --name master-node
 kubectl get nodes
 ```
 
 ---
 
-## 📦 8. Deploy to Kubernetes
-Apply the manifest:
-```bash
-kubectl apply -f deployments.yaml
-kubectl get pods -o wide
-```
+<a id="jenkins-pipeline-explanation"></a>
+## 🧩 7. Jenkins Pipeline Explanation
+
+The provided Jenkinsfile stages: 
+- Git Checkout: clone the repo. 
+- Maven Build: mvn clean package to produce the WAR. 
+- Docker Build: build image myweb-image:v${BUILD_NUMBER} . 
+- Docker Login & Push: login to Docker Hub (credential dockerhub-pass), tag and push. 
+- Update Deployment File: update deployments.yaml to new tag using sed. 
+- Kubernetes Deployment: apply deployments.yaml 
+Important Jenkins credential IDs used in the Jenkinsfile must match those created earlier.
 
 ---
 
-## 🧩 9. Jenkins Pipeline Explanation
-**Jenkinsfile:**
-```groovy
-pipeline {
-  agent any
-  tools { maven "Apache Maven 3.8.4" }
-  environment {
-    DOCKER_HUB_USER = 'mayrhatte09'
-    IMAGE_NAME = 'myimage'
-  }
-  stages {
-    stage('Git Checkout') { steps { git url: 'https://github.com/Mayurhatte09/myweb.git', branch: 'main' } }
-    stage('Maven Build') { steps { sh 'mvn clean package' } }
-    stage('Docker Build') { steps { sh 'docker build -t ${IMAGE_NAME}:v${BUILD_NUMBER} .' } }
-    stage('Docker Push') {
-      steps {
-        withCredentials([string(credentialsId: 'dockerhub-pass', variable: 'DOCKER_HUB_PASS')]) {
-          sh '''
-            echo "$DOCKER_HUB_PASS" | docker login -u "$DOCKER_HUB_USER" --password-stdin
-            docker tag ${IMAGE_NAME}:v${BUILD_NUMBER} ${DOCKER_HUB_USER}/${IMAGE_NAME}:v${BUILD_NUMBER}
-            docker push ${DOCKER_HUB_USER}/${IMAGE_NAME}:v${BUILD_NUMBER}
-          '''
-        }
-      }
-    }
-    stage('Deploy to K8s') {
-      steps {
-        sh '''
-          aws eks update-kubeconfig --region ap-southeast-1 --name moster-node
-          sed -i "s|${DOCKER_HUB_USER}/${IMAGE_NAME}:v[0-9]*|${DOCKER_HUB_USER}/${IMAGE_NAME}:v${BUILD_NUMBER}|g" deployments.yaml
-          kubectl apply -f deployments.yaml
-          kubectl rollout restart deployment mywebdeployment
-          kubectl get pods -o wide
-        '''
-      }
-    }
-  }
-}
-```
-
----
-
-## ✅ 10. Verify Deployment
+<a id="verify-deployment"></a>
+## ✅ 8. Run & Verify Deployment
 1. Run Jenkins pipeline.
 2. Check Docker Hub for image tag `v{BUILD_NUMBER}`.
 3. Validate deployment:
@@ -205,15 +163,12 @@ pipeline {
    kubectl get pods -o wide
    kubectl get svc
    ```
-4. Access app:
-   ```bash
-   kubectl port-forward svc/myweb-service 8080:8080
-   ```
-   🌍 Open: [http://localhost:8080](http://localhost:8080)
+4. 🌐 Access app: `http://<Workernode_EC2_PUBLIC_IP>:NodePort_Number`
 
 ---
 
-## 🧠 11. Troubleshooting
+<a id="troubleshooting"></a>
+## 🧠 9. Troubleshooting
 | Problem | Fix |
 |----------|------|
 | **ImagePullBackOff** | Ensure image tag matches Docker Hub tag. |
@@ -224,49 +179,14 @@ pipeline {
 
 ---
 
+<a id="appendix-files"></a>
 ## 📁 Appendix: Files
-### deployments.yaml
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: mywebdeployment
-  labels:
-    app: myweb
-spec:
-  replicas: 4
-  selector:
-    matchLabels:
-      app: myweb
-  template:
-    metadata:
-      labels:
-        app: myweb
-    spec:
-      containers:
-      - name: myweb
-        image: mayrhatte09/myimage:v1
-        ports:
-        - containerPort: 8080
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: myweb-service
-spec:
-  selector:
-    app: myweb
-  ports:
-    - port: 8080
-      targetPort: 8080
-  type: NodePort
-```
 
-### Dockerfile
-```dockerfile
-FROM tomcat:9.0.109
-COPY target/myweb*.war /usr/local/tomcat/webapps/myweb.war
-```
+### [deployments.yaml](https://github.com/sm-simplifies/myweb/blob/769f01e33e9ccb480add79c2e53623c73c4f3c67/deployments.yaml)
+
+### [dockerfile](https://github.com/sm-simplifies/myweb/blob/d599e1ec9bb6a1248017a6e0b379b98a8b690fcc/dockerfile)
+
+### [jenkinsfile](https://github.com/sm-simplifies/myweb/blob/abfff0a0b5145fdd37d6211759c0496b228d84cc/jenkinsfile)
 
 ---
 
@@ -274,7 +194,9 @@ COPY target/myweb*.war /usr/local/tomcat/webapps/myweb.war
 **Swapnil Mali** — AWS & DevOps Engineer  
 💡 *"Knowledge should spread!"* 💪
 
+---
 
+[TOP](#top)
 
 
 
