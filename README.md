@@ -223,7 +223,7 @@ pipeline {
 
 ## 📁 Appendix: Files
 
-### deployments.yaml
+### [deployments.yaml](https://github.com/sm-simplifies/myweb/blob/769f01e33e9ccb480add79c2e53623c73c4f3c67/deployments.yaml)
 
 ### Dockerfile
 
@@ -232,6 +232,7 @@ pipeline {
 ## 👨‍💻 Author
 **Swapnil Mali** — AWS & DevOps Engineer  
 💡 *"Knowledge should spread!"* 💪
+
 
 
 
