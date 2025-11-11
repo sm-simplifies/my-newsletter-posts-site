@@ -97,23 +97,10 @@ grep jenkins /etc/passwd
 2. Install **recommended plugins** (Git, Pipeline, Docker Pipeline, Kubernetes).
 3. Add credentials:
    - 🐳 **Docker Hub:** Username & password → ID: `dockerhub-pass`
-   - ☁️ **AWS (Optional):** IAM Access Key / Secret Key
-4. Test Jenkins → New Job → `docker ps`
 
 ---
 
-## 🐋 5. Build Docker Image
-**Dockerfile:**
-```dockerfile
-FROM tomcat:9.0.109
-COPY target/myweb*.war /usr/local/tomcat/webapps/myweb.war
-```
-
-📦 The pipeline compiles WAR → builds Docker image → pushes to Docker Hub.
-
----
-
-## 🔐 6. Create IAM Roles for EKS
+## 🔐 5. Create IAM Roles for EKS
 1. **Master Role:** Use case → EKS Cluster.
 2. **Worker Node Role:** Use case → EC2.
    - Attach policies:
@@ -123,7 +110,7 @@ COPY target/myweb*.war /usr/local/tomcat/webapps/myweb.war
 
 ---
 
-## ☸️ 7. Create EKS Cluster
+## ☸️ 6. Create EKS Cluster
 ```bash
 eksctl create cluster \
   --name moster-node \
@@ -144,16 +131,7 @@ kubectl get nodes
 
 ---
 
-## 📦 8. Deploy to Kubernetes
-Apply the manifest:
-```bash
-kubectl apply -f deployments.yaml
-kubectl get pods -o wide
-```
-
----
-
-## 🧩 9. Jenkins Pipeline Explanation
+## 🧩 7. Jenkins Pipeline Explanation
 
 The provided Jenkinsfile stages: 
 - Git Checkout: clone the repo. 
@@ -166,7 +144,7 @@ Important Jenkins credential IDs used in the Jenkinsfile must match those create
 
 ---
 
-## ✅ 10. Verify Deployment
+## ✅ 8. Verify Deployment
 1. Run Jenkins pipeline.
 2. Check Docker Hub for image tag `v{BUILD_NUMBER}`.
 3. Validate deployment:
@@ -178,11 +156,11 @@ Important Jenkins credential IDs used in the Jenkinsfile must match those create
    ```bash
    kubectl port-forward svc/myweb-service 8080:8080
    ```
-   🌍 Open: [http://localhost:8080](http://localhost:8080)
+   🌍 Open: [http://<PublicIP>:8080](http://<PublicIP>:8080)
 
 ---
 
-## 🧠 11. Troubleshooting
+## 🧠 9. Troubleshooting
 | Problem | Fix |
 |----------|------|
 | **ImagePullBackOff** | Ensure image tag matches Docker Hub tag. |
@@ -207,15 +185,4 @@ Important Jenkins credential IDs used in the Jenkinsfile must match those create
 **Swapnil Mali** — AWS & DevOps Engineer  
 💡 *"Knowledge should spread!"* 💪
 
-
-
-
-
-
-
-
-
-
-
-
-
+---
