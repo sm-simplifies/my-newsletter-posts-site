@@ -1,7 +1,7 @@
 <a id="top"></a>
 # 🚀 AWS EKS + Jenkins CI/CD — Project Workflow Execution.
 
-> **Repository:** [myweb](https://github.com/sm-simplifies/my-newsletter-posts-site.git)
+> **Repository:** [my-newsletter-posts-site](https://github.com/sm-simplifies/my-newsletter-posts-site.git)
 
 ---
 
@@ -29,7 +29,7 @@ This project demonstrates a **DevOps pipeline** integrating **Jenkins**, **Docke
 <a id="overview"></a>
 ## 🧭 Overview
 - 🔁 **Jenkins** automates: Code → Build → Dockerize → Push → Deploy.
-- 🐳 **Docker Hub** hosts the built image (`smicx20/myweb-image`).
+- 🐳 **Docker Hub** hosts the built image (`smicx20/my-newsletter-posts-site-image`).
 - ☸️ **AWS EKS** runs the application in Kubernetes pods.
 - 📊 **Prometheus** and **Grafana** provide monitoring and visualization.
 
@@ -39,7 +39,7 @@ This project demonstrates a **DevOps pipeline** integrating **Jenkins**, **Docke
 ## ⚙️ Prerequisites
 - ✅ AWS Account with required permissions (EC2, EKS, IAM).
 - ✅ Docker Hub account: `mayrhatte09`.
-- ✅ GitHub repository: [myweb](https://github.com/sm-simplifies/myweb.git).
+- ✅ GitHub repository: [my-newsletter-posts-site](https://github.com/sm-simplifies/my-newsletter-posts-site.git).
 - ✅ Local setup or EC2 instance with AWS CLI and kubectl installed.
 
 ---
@@ -146,7 +146,7 @@ kubectl get nodes
 The provided Jenkinsfile stages: 
 - Git Checkout: clone the repo. 
 - Maven Build: mvn clean package to produce the WAR. 
-- Docker Build: build image myweb-image:v${BUILD_NUMBER} . 
+- Docker Build: build image my-newsletter-posts-site-image:v${BUILD_NUMBER} . 
 - Docker Login & Push: login to Docker Hub (credential dockerhub-pass), tag and push. 
 - Update Deployment File: update deployments.yaml to new tag using sed. 
 - Kubernetes Deployment: apply deployments.yaml 
@@ -182,11 +182,11 @@ Important Jenkins credential IDs used in the Jenkinsfile must match those create
 <a id="appendix-files"></a>
 ## 📁 Appendix: Files
 
-### [deployments.yaml](https://github.com/sm-simplifies/myweb/blob/769f01e33e9ccb480add79c2e53623c73c4f3c67/deployments.yaml)
+### [deployments.yaml]()
 
-### [dockerfile](https://github.com/sm-simplifies/myweb/blob/d599e1ec9bb6a1248017a6e0b379b98a8b690fcc/dockerfile)
+### [dockerfile]()
 
-### [jenkinsfile](https://github.com/sm-simplifies/myweb/blob/abfff0a0b5145fdd37d6211759c0496b228d84cc/jenkinsfile)
+### [jenkinsfile]()
 
 ---
 
@@ -197,6 +197,7 @@ Important Jenkins credential IDs used in the Jenkinsfile must match those create
 ---
 
 [TOP](#top)
+
 
 
 
