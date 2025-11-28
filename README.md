@@ -1,7 +1,7 @@
 <a id="top"></a>
 # 🚀 AWS EKS + Jenkins CI/CD — Project Workflow Execution.
 
-> **Repository:** [myweb](https://github.com/sm-simplifies/myweb.git)
+> **Repository:** [myweb](https://github.com/sm-simplifies/my-newsletter-posts-site.git)
 
 ---
 
@@ -197,6 +197,7 @@ Important Jenkins credential IDs used in the Jenkinsfile must match those create
 ---
 
 [TOP](#top)
+
 
 
 
