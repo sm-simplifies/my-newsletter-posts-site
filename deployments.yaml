@@ -2,32 +2,32 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mywebdeployment
+  name: my-newsletter-posts-site-deployment
   labels:
-    app: myweb
+    app: my-newsletter-posts-site
 spec:
   replicas: 4
   selector:
     matchLabels:
-      app: myweb
+      app: my-newsletter-posts-site
   template:
     metadata:
       labels:
-        app: myweb
+        app: my-newsletter-posts-site
     spec:
       containers:
-      - name: myweb
-        image: smicx20/myweb-image:v
+      - name: my-newsletter-posts-site
+        image: smicx20/my-newsletter-posts-site-image:v
         ports:
         - containerPort: 8087
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: myweb-service
+  name: my-newsletter-posts-site-service
 spec:
   selector:
-    app: myweb
+    app: my-newsletter-posts-site
   ports:
     - port: 8087
       targetPort: 8087
