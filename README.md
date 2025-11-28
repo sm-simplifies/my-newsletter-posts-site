@@ -110,7 +110,9 @@ grep jenkins /etc/passwd
 <a id="create-iam-roles-for-eks"></a>
 ## 🔐 5. Create IAM Roles for EKS
 1. **Master Role:** Use case → EKS Cluster.
-2. **Worker Node Role:** Use case → EC2.
+   - Attach policies:
+     - `AmazonEKSClusterPolicy`
+3. **Worker Node Role:** Use case → EC2.
    - Attach policies:
      - `AmazonEKS_CNI_Policy`
      - `AmazonEC2ContainerRegistryReadOnly`
@@ -197,6 +199,7 @@ Important Jenkins credential IDs used in the Jenkinsfile must match those create
 ---
 
 [TOP](#top)
+
 
 
 
