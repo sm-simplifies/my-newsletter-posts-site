@@ -38,7 +38,7 @@ This project demonstrates a **DevOps pipeline** integrating **Jenkins**, **Docke
 <a id="prerequisites"></a>
 ## ⚙️ Prerequisites
 - ✅ AWS Account with required permissions (EC2, EKS, IAM).
-- ✅ Docker Hub account: `mayrhatte09`.
+- ✅ Docker Hub account: `smicx20`.
 - ✅ GitHub repository: [my-newsletter-posts-site](https://github.com/sm-simplifies/my-newsletter-posts-site.git).
 - ✅ Local setup or EC2 instance with AWS CLI and kubectl installed.
 
@@ -197,6 +197,7 @@ Important Jenkins credential IDs used in the Jenkinsfile must match those create
 ---
 
 [TOP](#top)
+
 
 
 
